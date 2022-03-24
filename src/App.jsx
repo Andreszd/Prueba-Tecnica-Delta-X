@@ -1,31 +1,18 @@
-import Search from './components/Search';
-import BooksSection from './components/Section';
+import Search from "./pages/Search";
+import Header from "./components/Header";
+import Books from "./pages/Books";
 
-import useBooks from './hooks/useBooks';
-
-import './App.css';
-import Header from './components/Header';
-
-const bookStates = ['wantToRead', 'currentlyReading', 'read'];
+import "./App.css";
+import { Route, Switch } from "wouter";
 
 function App() {
-  const { searchBooks, filterBooksByShelf, updateShelf } = useBooks();
-
   return (
     <div className="app">
-      <Header>
-        <Search searchBooks={searchBooks} />
-      </Header>
-      <main className="cards">
-        {bookStates.map((state, idx) => (
-          <BooksSection
-            key={idx}
-            title={state}
-            books={filterBooksByShelf(state)}
-            updateShelf={updateShelf}
-          />
-        ))}
-      </main>
+      <Header />
+      <Switch>
+        <Route path="/" component={Books} />
+        <Route path="/search/:book" component={Search} />
+      </Switch>
     </div>
   );
 }
