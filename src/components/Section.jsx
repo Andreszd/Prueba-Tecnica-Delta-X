@@ -1,6 +1,6 @@
-import Card from './Card';
+import Card from "./Card";
 
-const BooksSection = ({ title, books, updateShelf }) => {
+const BooksSection = ({ title, books = [], updateShelf }) => {
   return (
     <section className="section">
       <h2 className="section__title">{title}</h2>

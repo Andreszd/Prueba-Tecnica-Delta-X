@@ -1,9 +1,10 @@
-import Search from './Search';
+import { Link } from "wouter";
+import Search from "./Search";
 
-const Header = ({ children }) => (
+const Header = () => (
   <header className="header">
-    <a src="#">Books</a>
-    {children}
+    <Link to="/">Books</Link>
+    <Search />
   </header>
 );
 
