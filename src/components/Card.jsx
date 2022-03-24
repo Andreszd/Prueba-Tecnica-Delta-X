@@ -1,4 +1,4 @@
-const states = ['currentlyReading', 'wantToRead', 'read'];
+import { BOOK_STATES } from "../constants";
 
 const Card = ({ book, updateShelf }) => {
   const { imageLinks, title, subtitle, authors, shelf } = book;
@@ -19,14 +19,16 @@ const Card = ({ book, updateShelf }) => {
       <div className="card__footer">
         <label>State:</label>
         <select
-          defaultValue={shelf}
-          onChange={(evt) => updateShelf(book, evt.target.value)}>
+          defaultValue={shelf ? shelf : "none"}
+          onChange={(evt) => updateShelf(book, evt.target.value)}
+        >
           <option disabled>select</option>
-          {states.map((state) => (
+          {BOOK_STATES.map((state) => (
             <option key={state} value={state}>
               {state}
             </option>
           ))}
+          {!shelf && <option value="none">none</option>}
         </select>
       </div>
     </div>
