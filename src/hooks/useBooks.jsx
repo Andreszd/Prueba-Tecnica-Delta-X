@@ -1,31 +1,35 @@
-import { useState, useEffect } from 'react';
-import { getAll, search, update } from '../services/books';
+import { useState, useEffect } from "react";
+import { getAll, search, update } from "../services/books";
 
-const useBooks = () => {
+import { BOOK_STATES } from "../constants";
+
+const useBooks = (findMatches) => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    getBooks();
-  }, [update]);
+    if (findMatches) {
+      searchBooks(findMatches);
+    } else {
+      getBooks();
+    }
+  }, [findMatches]);
 
   const searchBooks = (book) => {
-    if (book.length === 0) return getBooks();
-
     search(book).then((res) => {
       if (!Array.isArray(res)) return;
-      const filterBooks = res?.filter((book) => 'shelf' in book);
-
-      setBooks(filterBooks);
+      setBooks(res);
     });
   };
 
   const getBooks = () => getAll().then(setBooks);
 
   const updateShelf = async (book, newShelf) => {
-    update(book, newShelf);
-    setBooks(
-      books.map((bk) => (bk.id === book.id ? { ...bk, shelf: newShelf } : bk))
-    );
+    if (BOOK_STATES.includes(newShelf)) {
+      update(book, newShelf);
+      setBooks(
+        books.map((bk) => (bk.id === book.id ? { ...bk, shelf: newShelf } : bk))
+      );
+    }
   };
 
   const filterBooksByShelf = (shelf) => {
